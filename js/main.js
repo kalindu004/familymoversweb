@@ -34,16 +34,4 @@
     });
   });
 
-  const form = document.querySelector(".inquiry form");
-  if (form) {
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const name = form.name.value.trim();
-      const email = form.email.value.trim();
-      const message = form.message.value.trim();
-      const subject = encodeURIComponent("Inquiry from " + name);
-      const body = encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\n" + message);
-      window.location.href = "mailto:info@familymovers.lk?subject=" + subject + "&body=" + body;
-    });
-  }
 })();
