@@ -182,6 +182,23 @@ section { padding: 4.5rem 0; }
 .contact dt { font-weight: 700; color: var(--navy); margin: 0 0 .4rem; }
 .contact dd { margin: 0; }
 
+
+.quote-form { background: #fff; }
+.form-embed {
+  max-width: 640px;
+  margin: 0 auto;
+  border: 1px solid var(--line);
+  background: var(--mist);
+  overflow: hidden;
+}
+.form-embed iframe {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  height: 3776px;
+  border: 0;
+}
+
 footer {
   background: var(--navy-dark); color: #c9d4e3; padding: 2rem 0 1.4rem; font-size: .92rem;
 }
