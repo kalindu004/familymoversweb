@@ -10,16 +10,12 @@
   --paper: #ffffff;
   --mist: #f6f7f9;
   --max: 1120px;
-  /* Sticky .site-header is min-height 84px; keep section titles clear of it on #hash jumps */
-  --header-offset: 6rem;
+  /* Sticky header ~84px; sections already have 4.5rem top padding — only need the net gap */
+  --header-offset: 1.75rem;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: var(--header-offset);
-}
-section[id],
-[id] {
+html { scroll-behavior: smooth; }
+section[id] {
   scroll-margin-top: var(--header-offset);
 }
 body {
