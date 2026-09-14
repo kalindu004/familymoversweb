@@ -10,9 +10,18 @@
   --paper: #ffffff;
   --mist: #f6f7f9;
   --max: 1120px;
+  /* Sticky .site-header is min-height 84px; keep section titles clear of it on #hash jumps */
+  --header-offset: 6rem;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-offset);
+}
+section[id],
+[id] {
+  scroll-margin-top: var(--header-offset);
+}
 body {
   margin: 0;
   font-family: "Source Sans 3", "Segoe UI", sans-serif;
