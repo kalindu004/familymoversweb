@@ -387,9 +387,6 @@ footer a { color: var(--gold); text-decoration: none; }
 .foot-grid { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .credit { margin-top: 1.2rem; border-top: 1px solid rgba(255,255,255,.12); padding-top: 1rem; }
 
-/* Mobile CTA bar — hidden on desktop */
-
-/* WhatsApp widget offset above mobile CTA */
 @media (max-width: 768px) {
   #ngx-wa-widget {
     right: 14px !important;
