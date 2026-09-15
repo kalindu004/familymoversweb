@@ -429,3 +429,13 @@ footer a { color: var(--gold); text-decoration: none; }
   }
   section { padding: 3.5rem 0; }
 }
+
+/* Hide legacy sticky/mobile CTA bar if an old cached HTML still includes it */
+.mobile-cta {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
