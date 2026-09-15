@@ -67,7 +67,7 @@
     @media (max-width:768px){
       #ngx-wa-widget{
         right:14px;
-        bottom:14px;
+        bottom:72px;
       }
 
       #ngx-wa-button{

@@ -1,23 +1,26 @@
 # familymoversweb
 
-Single-page replacement for the Joomla site at [familymovers.lk](https://www.familymovers.lk).
+Public static site for [Family Movers (Pvt) Ltd](https://www.familymovers.lk) — packing, moving and storage in Sri Lanka since 1989.
 
-Copy, photos, logos, and contact details were taken from the live site. The embedded Google Form for quote requests is **not** included; inquiries go to `info@familymovers.lk`.
+Hostinger Git-syncs this repo’s `main` branch to production. No build step.
+
+## Phase 1 redesign (current)
+
+Homepage (`index.html`) rebuilt as a rich single page with hash sections ready for a later multi-page split (`#home`, `#about`, `#services`, `#portfolio`, `#testimonials`, `#contact`, `#quote`, `#team`, `#why`, plus journey IDs).
+
+- Brand colours: navy `#013370` / `#001733` + gold `#fdba13`
+- Quote form: embedded Google Form at `#quote`
+- Analytics: GA4 `G-W453LPRSKV`
+- WhatsApp widget + sticky mobile Call / WhatsApp / Quote bar
 
 ## Preview
-
-From this folder:
 
 ```bash
 python3 -m http.server 8080
 ```
 
-Then open http://localhost:8080
-
-## Deploy (cutover later)
-
-Upload the contents of this folder (keep `index.html` at the web root) to the existing host, or enable GitHub Pages on `main`. Point `familymovers.lk` at the new files when you are ready — DNS/hosting cutover is out of this repo.
+Open http://localhost:8080
 
 ## Stack
 
-Static HTML, CSS, and a small JS file. No CMS, no build step, no secrets.
+Static HTML, CSS, and JS. No CMS, no secrets.
