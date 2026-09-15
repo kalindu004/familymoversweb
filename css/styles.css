@@ -11,7 +11,6 @@
   --mist: #f6f7f9;
   --max: 1120px;
   --header-offset: 1.75rem;
-  --mobile-cta-h: 3.6rem;
 }
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -389,12 +388,10 @@ footer a { color: var(--gold); text-decoration: none; }
 .credit { margin-top: 1.2rem; border-top: 1px solid rgba(255,255,255,.12); padding-top: 1rem; }
 
 /* Mobile CTA bar — hidden on desktop */
-.mobile-cta { display: none; }
 
 /* WhatsApp widget offset above mobile CTA */
 @media (max-width: 768px) {
   #ngx-wa-widget {
-    bottom: calc(var(--mobile-cta-h) + 18px) !important;
     right: 14px !important;
   }
 }
@@ -427,35 +424,11 @@ footer a { color: var(--gold); text-decoration: none; }
   .hero-copy { min-height: 78vh; padding-bottom: 7rem; }
   .hero h1 { max-width: none; }
   .review-carousel { padding: 0 2.4rem 2rem; }
-  footer { text-align: center; padding-bottom: calc(var(--mobile-cta-h) + 1.2rem); }
   .foot-grid {
     justify-content: center;
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
-  body { padding-bottom: var(--mobile-cta-h); }
-  .mobile-cta {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1.2fr;
-    position: fixed;
-    left: 0; right: 0; bottom: 0;
-    z-index: 90;
-    background: var(--navy-dark);
-    border-top: 2px solid var(--gold);
-    min-height: var(--mobile-cta-h);
-    box-shadow: 0 -8px 24px rgba(0,23,51,.18);
-  }
-  .mobile-cta a {
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; text-decoration: none; font-weight: 700;
-    font-size: .82rem; letter-spacing: .04em; text-transform: uppercase;
-    padding: .85rem .4rem;
-  }
-  .mobile-cta a:hover { color: var(--gold); }
-  .mobile-cta-quote {
-    background: var(--gold); color: var(--navy-dark) !important;
-  }
-  .mobile-cta-quote:hover { background: var(--gold-deep); color: var(--navy-dark) !important; }
   section { padding: 3.5rem 0; }
 }
