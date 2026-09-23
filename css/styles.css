@@ -453,9 +453,9 @@ footer a { color: var(--gold); text-decoration: none; }
     margin: 0;
     border-radius: 0;
     object-fit: cover;
-    /* Fade into text on the left */
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 58%);
-    mask-image: linear-gradient(to right, transparent 0%, #000 58%);
+    /* Fade into text on the left — keep more of the photo solid */
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 22%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 22%);
   }
   .clients { grid-template-columns: 1fr 1fr; }
   .hero { min-height: 78vh; }
