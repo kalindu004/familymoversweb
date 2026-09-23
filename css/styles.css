@@ -152,7 +152,9 @@ section { padding: 4.5rem 0; }
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
 }
 .journey-card {
-  display: flex; flex-direction: column; gap: .45rem;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
   background: #fff; border: 1px solid var(--line); border-top: 3px solid var(--gold);
   padding: 1.5rem 1.25rem; text-decoration: none; color: inherit;
   min-height: 140px; transition: box-shadow .2s, border-color .2s, transform .15s;
@@ -161,6 +163,21 @@ section { padding: 4.5rem 0; }
   box-shadow: 0 12px 28px rgba(0,23,51,.08);
   border-top-color: var(--navy);
   transform: translateY(-2px);
+}
+.journey-text {
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+  flex: 1;
+  min-width: 0;
+}
+.journey-photo {
+  display: block;
+  width: 100%;
+  height: 148px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: auto;
 }
 .journey-label {
   font-family: "Playfair Display", Georgia, serif;
@@ -415,6 +432,18 @@ footer a { color: var(--gold); text-decoration: none; }
   .journey-grid, .special-grid, .why-grid, .values-grid,
   .services-grid, .contact-grid, .people-grid, .steps, .clients {
     grid-template-columns: 1fr;
+  }
+  .journey-card {
+    flex-direction: row;
+    align-items: center;
+    gap: .85rem;
+  }
+  .journey-photo {
+    width: 76px;
+    height: 76px;
+    flex-shrink: 0;
+    margin-top: 0;
+    border-radius: 8px;
   }
   .clients { grid-template-columns: 1fr 1fr; }
   .hero { min-height: 78vh; }
