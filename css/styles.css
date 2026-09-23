@@ -154,10 +154,11 @@ section { padding: 4.5rem 0; }
 .journey-card {
   display: flex;
   flex-direction: column;
-  gap: .55rem;
+  gap: 0;
   background: #fff; border: 1px solid var(--line); border-top: 3px solid var(--gold);
-  padding: 1.5rem 1.25rem; text-decoration: none; color: inherit;
-  min-height: 140px; transition: box-shadow .2s, border-color .2s, transform .15s;
+  padding: 0; text-decoration: none; color: inherit;
+  min-height: 140px; overflow: hidden;
+  transition: box-shadow .2s, border-color .2s, transform .15s;
 }
 .journey-card:hover {
   box-shadow: 0 12px 28px rgba(0,23,51,.08);
@@ -170,13 +171,15 @@ section { padding: 4.5rem 0; }
   gap: .45rem;
   flex: 1;
   min-width: 0;
+  padding: 1.5rem 1.25rem .9rem;
 }
 .journey-photo {
   display: block;
   width: 100%;
   height: 148px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 0;
+  margin: 0;
   margin-top: auto;
 }
 .journey-label {
@@ -435,15 +438,24 @@ footer a { color: var(--gold); text-decoration: none; }
   }
   .journey-card {
     flex-direction: row;
-    align-items: center;
-    gap: .85rem;
+    align-items: stretch;
+    gap: 0;
+  }
+  .journey-text {
+    padding: 1.15rem 0.65rem 1.15rem 1.25rem;
   }
   .journey-photo {
-    width: 76px;
-    height: 76px;
+    width: 96px;
+    height: auto;
+    min-height: 76px;
+    align-self: stretch;
     flex-shrink: 0;
-    margin-top: 0;
-    border-radius: 8px;
+    margin: 0;
+    border-radius: 0;
+    object-fit: cover;
+    /* Fade into text on the left */
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 58%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 58%);
   }
   .clients { grid-template-columns: 1fr 1fr; }
   .hero { min-height: 78vh; }
