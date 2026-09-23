@@ -317,21 +317,33 @@ section { padding: 4.5rem 0; }
   max-width: 1100px;
   margin: 0 auto;
 }
+.reviews-panel {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  background: #fff;
+  border: 3px solid var(--navy);
+  border-radius: 6px;
+  box-shadow:
+    0 0 0 2px var(--gold),
+    0 14px 36px rgba(0, 23, 51, 0.12);
+  padding: 0.35rem 0 0.5rem;
+}
 .reviews-holder {
   width: clamp(130px, 15vw, 200px);
   height: auto;
   pointer-events: none;
   user-select: none;
   position: relative;
-  z-index: 1;
+  z-index: 3; /* palms sit over the border */
 }
 .reviews-holder-left {
   justify-self: end;
-  margin-right: -1.1rem; /* palms meet the card edge */
+  margin-right: -1.35rem; /* palms grip the frame */
 }
 .reviews-holder-right {
   justify-self: start;
-  margin-left: -1.1rem;
+  margin-left: -1.35rem;
 }
 .reviews-hold .review-carousel {
   max-width: none;
@@ -340,6 +352,7 @@ section { padding: 4.5rem 0; }
   z-index: 2;
   padding-left: 2.6rem;
   padding-right: 2.6rem;
+  padding-bottom: 1.6rem;
 }
 
 .review-carousel {
@@ -488,9 +501,15 @@ footer a { color: var(--gold); text-decoration: none; }
 @media (max-width: 960px) {
   .reviews-holder { display: none; }
   .reviews-hold { grid-template-columns: 1fr; }
-  .reviews-hold .review-carousel {
+  .reviews-panel {
     max-width: 820px;
     margin: 0 auto;
+    border-width: 2px;
+    box-shadow: 0 0 0 1px var(--gold), 0 8px 24px rgba(0, 23, 51, 0.08);
+  }
+  .reviews-hold .review-carousel {
+    max-width: none;
+    margin: 0;
   }
 
   .journey-grid, .special-grid, .why-grid, .values-grid {
@@ -545,9 +564,13 @@ footer a { color: var(--gold); text-decoration: none; }
     grid-template-columns: 1fr;
     max-width: none;
   }
+  .reviews-panel {
+    max-width: none;
+    margin: 0;
+  }
   .reviews-hold .review-carousel {
-    max-width: 820px;
-    margin: 0 auto;
+    max-width: none;
+    margin: 0;
     padding: 0 2.4rem 2rem;
   }
   .review-carousel { padding: 0 2.4rem 2rem; }
