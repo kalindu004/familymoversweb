@@ -508,13 +508,12 @@
       </div>
       <!--
         Replaces the Google Form embed (published id 1FAIpQLSfn3cQdmFVL81T-boSjR3DgzBBDFfXpfIDtiwozW-6Av5Sd8Q).
-        Static site: no mail endpoint in this repo. Native submit and the script both open a mailto
-        draft to the published inbox info@familymovers.lk. TODO: confirm that inbox (or name a
-        server endpoint) before relying on this for go-live delivery. Do not point this form at StoreIt's send-enquiry.php.
+        Submit posts to same-origin send-quote.php, which mails info@familymovers.lk.
+        Do not point this form at StoreIt's send-enquiry.php.
       -->
-      <form id="quote-request" class="enquiry-form" method="post" action="mailto:info@familymovers.lk?subject=Family%20Movers%20website%20quote%20request" enctype="text/plain">
+      <form id="quote-request" class="enquiry-form" method="post" action="send-quote.php">
         <h3>Request a quotation</h3>
-        <p class="form-intro">Complete the form and send your moving enquiry to our team. Your email app opens with the details, and you can also send the same message on WhatsApp.</p>
+        <p class="form-intro">Complete the form and send your moving enquiry directly to our team. We will get back to you by email or phone.</p>
         <input type="hidden" name="form_name" value="family-movers-quote">
         <div class="form-row">
           <div class="field">
@@ -580,7 +579,7 @@
   </footer>
 
 
-  <script src="js/main.js?v=21"></script>
+  <script src="js/main.js?v=22"></script>
   <script src="js/whatsapp-widget.js?v=20"></script>
 </body>
 </html>

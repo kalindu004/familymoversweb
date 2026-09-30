@@ -101,7 +101,43 @@
       input.addEventListener("input", () => input.setCustomValidity(""));
     });
 
-    quoteForm.addEventListener("submit", (event) => {
+    const fieldValue = (name) => String(quoteForm.elements[name].value || "").trim();
+    const enquiryBody = () => [
+      "Family Movers quote request",
+      "",
+      "Name: " + fieldValue("name"),
+      "Contact Number: " + fieldValue("phone"),
+      "Email: " + fieldValue("email"),
+      "Date of Moving: " + fieldValue("move_date"),
+      "",
+      "Loading Address & Floor(s):",
+      fieldValue("loading_address"),
+      "",
+      "Unloading Address & Floor(s):",
+      fieldValue("unloading_address"),
+      "",
+      "Description of Goods:",
+      fieldValue("goods"),
+      "",
+      "Special Remarks:",
+      fieldValue("remarks") || "(none)"
+    ].join("\n");
+
+    const addWhatsAppFallback = (el) => {
+      el.append(document.createTextNode(" You can still send the same details on "));
+      const link = document.createElement("a");
+      link.href = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(enquiryBody());
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "WhatsApp";
+      el.append(link, document.createTextNode(", or call 0772 503040."));
+    };
+
+    let sending = false;
+    quoteForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (sending) return;
+
       requiredNames.forEach((name) => {
         const input = quoteForm.elements[name];
         input.setCustomValidity(String(input.value || "").trim() ? "" : "Please complete this field.");
@@ -116,54 +152,74 @@
         );
       }
       if (!quoteForm.reportValidity()) {
-        event.preventDefault();
         showStatus("error", (el) => {
           el.textContent = "Please complete the required fields before sending.";
         });
         return;
       }
 
-      // No app backend. Hand the enquiry to the visitor's email app and keep a WhatsApp copy
-      // so the details are not dropped if that app does not open.
-      event.preventDefault();
-      const lines = [
-        "Family Movers quote request",
-        "",
-        "Name: " + quoteForm.elements.name.value.trim(),
-        "Contact Number: " + quoteForm.elements.phone.value.trim(),
-        "Email: " + quoteForm.elements.email.value.trim(),
-        "Date of Moving: " + quoteForm.elements.move_date.value,
-        "",
-        "Loading Address & Floor(s):",
-        quoteForm.elements.loading_address.value.trim(),
-        "",
-        "Unloading Address & Floor(s):",
-        quoteForm.elements.unloading_address.value.trim(),
-        "",
-        "Description of Goods:",
-        quoteForm.elements.goods.value.trim(),
-        "",
-        "Special Remarks:",
-        quoteForm.elements.remarks.value.trim() || "(none)"
-      ];
-      const body = lines.join("\n");
-      const subject = "Family Movers website quote request";
-      const mailto = "mailto:" + inbox
-        + "?subject=" + encodeURIComponent(subject)
-        + "&body=" + encodeURIComponent(body);
-      const whatsapp = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(body);
-      window.location.href = mailto;
-      showStatus("success", (el) => {
-        el.append(document.createTextNode(
-          "Your email app should open with this enquiry addressed to " + inbox + ". If it does not, the details are still in the form. Send the same message on "
-        ));
-        const link = document.createElement("a");
-        link.href = whatsapp;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = "WhatsApp";
-        el.append(link, document.createTextNode("."));
+      const button = quoteForm.querySelector('button[type="submit"]');
+      const buttonLabel = button.textContent;
+      sending = true;
+      button.disabled = true;
+      button.textContent = "Sending…";
+      showStatus("", (el) => {
+        el.textContent = "Sending your enquiry…";
       });
+
+      const payload = {
+        name: fieldValue("name"),
+        phone: fieldValue("phone"),
+        email: fieldValue("email"),
+        move_date: fieldValue("move_date"),
+        loading_address: fieldValue("loading_address"),
+        unloading_address: fieldValue("unloading_address"),
+        goods: fieldValue("goods"),
+        remarks: fieldValue("remarks")
+      };
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000);
+      try {
+        const response = await fetch("send-quote.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          },
+          body: JSON.stringify(payload),
+          signal: controller.signal,
+          credentials: "same-origin"
+        });
+        let result = null;
+        try {
+          result = await response.json();
+        } catch (parseError) {
+          result = null;
+        }
+        if (!response.ok || !result || result.ok !== true) {
+          const message = result && typeof result.error === "string" && result.error
+            ? result.error
+            : "We could not send your enquiry.";
+          throw new Error(message);
+        }
+        quoteForm.reset();
+        showStatus("success", (el) => {
+          el.textContent = "Thank you. Your quote request has been sent to " + inbox + ". We will get back to you.";
+        });
+      } catch (error) {
+        const message = error && error.name === "AbortError"
+          ? "Sending timed out."
+          : (error && error.message) || "We could not send your enquiry.";
+        showStatus("error", (el) => {
+          el.append(document.createTextNode(message));
+          addWhatsAppFallback(el);
+        });
+      } finally {
+        clearTimeout(timeout);
+        sending = false;
+        button.disabled = false;
+        button.textContent = buttonLabel;
+      }
     });
   }
 })();
