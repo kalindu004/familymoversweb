@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-const RECIPIENT = 'info@familymovers.lk';
+const RECIPIENT = 'transport@familymovers.lk';
 const FROM_ADDRESS = 'noreply@familymovers.lk';
 const SUBJECT = 'Family Movers website quote request';
 
