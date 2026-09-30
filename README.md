@@ -9,7 +9,7 @@ Hostinger Git-syncs this repo’s `main` branch to production. No build step.
 Homepage (`index.html`) rebuilt as a rich single page with hash sections ready for a later multi-page split (`#home`, `#about`, `#services`, `#portfolio`, `#testimonials`, `#contact`, `#quote`, `#team`, `#why`, plus journey IDs).
 
 - Brand colours: navy `#013370` / `#001733` + gold `#fdba13`
-- Quote form: embedded Google Form at `#quote`
+- Quote form: native enquiry form at `#quote` (mailto `info@familymovers.lk`, with a WhatsApp fallback). No server endpoint yet.
 - Analytics: GA4 `G-W453LPRSKV`
 - WhatsApp widget + sticky mobile Call / WhatsApp / Quote bar
 

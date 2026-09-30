@@ -82,4 +82,88 @@
     );
     restart();
   }
+
+  const quoteForm = document.querySelector("#quote-request");
+  if (quoteForm) {
+    const status = quoteForm.querySelector("#quote-status");
+    const inbox = "info@familymovers.lk";
+    const whatsappNumber = "94772503040";
+    const requiredNames = ["name", "phone", "email", "move_date", "loading_address", "unloading_address", "goods"];
+
+    const showStatus = (state, fill) => {
+      status.replaceChildren();
+      status.dataset.state = state;
+      fill(status);
+      status.focus({ preventScroll: true });
+    };
+
+    quoteForm.querySelectorAll("input, textarea").forEach((input) => {
+      input.addEventListener("input", () => input.setCustomValidity(""));
+    });
+
+    quoteForm.addEventListener("submit", (event) => {
+      requiredNames.forEach((name) => {
+        const input = quoteForm.elements[name];
+        input.setCustomValidity(String(input.value || "").trim() ? "" : "Please complete this field.");
+      });
+      const phone = quoteForm.elements.phone;
+      if (!phone.validationMessage) {
+        const digits = phone.value.replace(/\D/g, "");
+        phone.setCustomValidity(
+          digits.length >= 7 && digits.length <= 15
+            ? ""
+            : "Please enter a valid contact number."
+        );
+      }
+      if (!quoteForm.reportValidity()) {
+        event.preventDefault();
+        showStatus("error", (el) => {
+          el.textContent = "Please complete the required fields before sending.";
+        });
+        return;
+      }
+
+      // No app backend. Hand the enquiry to the visitor's email app and keep a WhatsApp copy
+      // so the details are not dropped if that app does not open.
+      event.preventDefault();
+      const lines = [
+        "Family Movers quote request",
+        "",
+        "Name: " + quoteForm.elements.name.value.trim(),
+        "Contact Number: " + quoteForm.elements.phone.value.trim(),
+        "Email: " + quoteForm.elements.email.value.trim(),
+        "Date of Moving: " + quoteForm.elements.move_date.value,
+        "",
+        "Loading Address & Floor(s):",
+        quoteForm.elements.loading_address.value.trim(),
+        "",
+        "Unloading Address & Floor(s):",
+        quoteForm.elements.unloading_address.value.trim(),
+        "",
+        "Description of Goods:",
+        quoteForm.elements.goods.value.trim(),
+        "",
+        "Special Remarks:",
+        quoteForm.elements.remarks.value.trim() || "(none)"
+      ];
+      const body = lines.join("\n");
+      const subject = "Family Movers website quote request";
+      const mailto = "mailto:" + inbox
+        + "?subject=" + encodeURIComponent(subject)
+        + "&body=" + encodeURIComponent(body);
+      const whatsapp = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(body);
+      window.location.href = mailto;
+      showStatus("success", (el) => {
+        el.append(document.createTextNode(
+          "Your email app should open with this enquiry addressed to " + inbox + ". If it does not, the details are still in the form. Send the same message on "
+        ));
+        const link = document.createElement("a");
+        link.href = whatsapp;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "WhatsApp";
+        el.append(link, document.createTextNode("."));
+      });
+    });
+  }
 })();

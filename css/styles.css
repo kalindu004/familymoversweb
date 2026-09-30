@@ -467,22 +467,88 @@ section { padding: 4.5rem 0; }
 .contact a { text-decoration: none; font-weight: 600; }
 .contact a:hover { color: var(--navy-mid); text-decoration: underline; }
 
-/* Quote */
+/* Quote — stacked card, StoreIt-style layout in Family Movers navy/gold */
 .quote-form { background: #fff; }
-.form-embed {
-  max-width: 640px;
+.enquiry-form {
+  max-width: 720px;
   margin: 0 auto;
-  border: 1px solid var(--line);
   background: var(--mist);
-  overflow: hidden;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--gold);
+  padding: 2.25rem 2.25rem 1.75rem;
 }
-.form-embed iframe {
+.enquiry-form h3 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 1.7rem;
+}
+.form-intro {
+  margin: .75rem 0 1.4rem;
+  color: var(--muted);
+  font-size: .95rem;
+}
+.enquiry-form .field { margin-bottom: 1.05rem; }
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.05rem;
+}
+.label-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .75rem;
+}
+.enquiry-form label {
+  display: block;
+  font-size: .92rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+.optional { font-size: .8rem; font-weight: 600; color: var(--muted); }
+.enquiry-form input,
+.enquiry-form textarea {
   display: block;
   width: 100%;
-  max-width: 640px;
-  height: 1180px;
-  border: 0;
+  margin-top: .4rem;
+  padding: .75rem .8rem;
+  border: 1px solid #b8c0c9;
+  border-radius: 2px;
+  background: #fff;
+  color: var(--navy-dark);
+  font: inherit;
+  line-height: 1.5;
 }
+.enquiry-form textarea { resize: vertical; min-height: 6.5rem; }
+.enquiry-form input:focus-visible,
+.enquiry-form textarea:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+.enquiry-form .send-button {
+  width: 100%;
+  margin-top: .35rem;
+}
+.form-status {
+  margin: 1rem 0 0;
+  padding: .9rem 1rem;
+  border: 1px solid #c2d0df;
+  background: #fff;
+  font-size: .9rem;
+  line-height: 1.6;
+}
+.form-status:empty { display: none; }
+.form-status[data-state="success"] {
+  border-color: #b4cdbd;
+  background: #f1f8f4;
+  color: #164a2d;
+}
+.form-status[data-state="error"] {
+  border-color: #e1b9a6;
+  background: #fff7f2;
+  color: #74350d;
+}
+.form-status a { font-weight: 700; }
 
 /* Footer */
 footer {
@@ -556,6 +622,8 @@ footer a { color: var(--gold); text-decoration: none; }
     mask-image: linear-gradient(to right, transparent 0%, #000 22%);
   }
   .clients { grid-template-columns: 1fr 1fr; }
+  .form-row { grid-template-columns: 1fr; gap: 0; }
+  .enquiry-form { padding: 1.6rem 1.15rem 1.35rem; }
   .hero { min-height: 78vh; }
   .hero-copy { min-height: 78vh; padding-bottom: 7rem; }
   .hero h1 { max-width: none; }
