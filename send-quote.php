@@ -6,8 +6,8 @@
  */
 declare(strict_types=1);
 
-const RECIPIENT = 'kalindu@ngxconsultants.com';
-const FROM_ADDRESS = 'info@familymovers.lk';
+const RECIPIENT = 'info@familymovers.lk';
+const FROM_ADDRESS = 'noreply@familymovers.lk';
 const SUBJECT = 'Family Movers website quote request';
 
 header('Content-Type: application/json; charset=UTF-8');
