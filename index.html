@@ -17,7 +17,7 @@
     gtag('js', new Date());
     gtag('config', 'G-W453LPRSKV');
   </script>
-  <link rel="stylesheet" href="css/styles.css?v=26">
+  <link rel="stylesheet" href="css/styles.css?v=27">
 </head>
 <body>
   <a class="skip" href="#home">Skip to content</a>
@@ -506,17 +506,56 @@
         <hr class="gold-rule">
         <p>Tell us about your move and we will get back to you with a quotation. Prefer a quick chat? <a href="https://wa.me/94772503040" rel="noopener" target="_blank">WhatsApp us</a> or call <a href="tel:+94772503040">0772 503040</a>.</p>
       </div>
-      <div class="form-embed">
-        <iframe
-          src="https://docs.google.com/forms/d/e/1FAIpQLSfn3cQdmFVL81T-boSjR3DgzBBDFfXpfIDtiwozW-6Av5Sd8Q/viewform?embedded=true"
-          title="Family Movers quotation request form"
-          width="640"
-          height="1180"
-          frameborder="0"
-          marginheight="0"
-          marginwidth="0"
-          loading="lazy">Loading…</iframe>
-      </div>
+      <!--
+        Replaces the Google Form embed (published id 1FAIpQLSfn3cQdmFVL81T-boSjR3DgzBBDFfXpfIDtiwozW-6Av5Sd8Q).
+        Static site: no mail endpoint in this repo. Native submit and the script both open a mailto
+        draft to the published inbox info@familymovers.lk. TODO: confirm that inbox (or name a
+        server endpoint) before relying on this for go-live delivery. Do not point this form at StoreIt's send-enquiry.php.
+      -->
+      <form id="quote-request" class="enquiry-form" method="post" action="mailto:info@familymovers.lk?subject=Family%20Movers%20website%20quote%20request" enctype="text/plain">
+        <h3>Request a quotation</h3>
+        <p class="form-intro">Complete the form and send your moving enquiry to our team. Your email app opens with the details, and you can also send the same message on WhatsApp.</p>
+        <input type="hidden" name="form_name" value="family-movers-quote">
+        <div class="form-row">
+          <div class="field">
+            <label for="quote-name">Name</label>
+            <input id="quote-name" name="name" type="text" autocomplete="name" required maxlength="100">
+          </div>
+          <div class="field">
+            <label for="quote-phone">Contact Number</label>
+            <input id="quote-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="40">
+          </div>
+        </div>
+        <div class="field">
+          <label for="quote-email">Email</label>
+          <input id="quote-email" name="email" type="email" autocomplete="email" required maxlength="150">
+        </div>
+        <div class="field">
+          <label for="quote-date">Date of Moving</label>
+          <input id="quote-date" name="move_date" type="date" required>
+        </div>
+        <div class="field">
+          <label for="quote-loading">Loading Address &amp; Floor(s)</label>
+          <textarea id="quote-loading" name="loading_address" rows="3" required maxlength="1000"></textarea>
+        </div>
+        <div class="field">
+          <label for="quote-unloading">Unloading Address &amp; Floor(s)</label>
+          <textarea id="quote-unloading" name="unloading_address" rows="3" required maxlength="1000"></textarea>
+        </div>
+        <div class="field">
+          <label for="quote-goods">Description of Goods</label>
+          <textarea id="quote-goods" name="goods" rows="4" required maxlength="2000"></textarea>
+        </div>
+        <div class="field">
+          <div class="label-line">
+            <label for="quote-remarks">Special Remarks</label>
+            <span class="optional">Optional</span>
+          </div>
+          <textarea id="quote-remarks" name="remarks" rows="3" maxlength="2000"></textarea>
+        </div>
+        <button class="btn send-button" type="submit">Send enquiry</button>
+        <p id="quote-status" class="form-status" role="status" aria-live="polite" tabindex="-1"></p>
+      </form>
     </div>
   </section>
 
@@ -541,7 +580,7 @@
   </footer>
 
 
-  <script src="js/main.js?v=20"></script>
+  <script src="js/main.js?v=21"></script>
   <script src="js/whatsapp-widget.js?v=20"></script>
 </body>
 </html>
