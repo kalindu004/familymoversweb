@@ -9,7 +9,7 @@ Hostinger Git-syncs this repo’s `main` branch to production. No build step.
 Homepage (`index.html`) rebuilt as a rich single page with hash sections ready for a later multi-page split (`#home`, `#about`, `#services`, `#portfolio`, `#testimonials`, `#contact`, `#quote`, `#team`, `#why`, plus journey IDs).
 
 - Brand colours: navy `#013370` / `#001733` + gold `#fdba13`
-- Quote form: native enquiry form at `#quote` (mailto `info@familymovers.lk`, with a WhatsApp fallback). No server endpoint yet.
+- Quote form: native enquiry form at `#quote`. `send-quote.php` emails `info@familymovers.lk` with PHP `mail()`. WhatsApp is only a fallback if sending fails.
 - Analytics: GA4 `G-W453LPRSKV`
 - WhatsApp widget + sticky mobile Call / WhatsApp / Quote bar
 
@@ -23,4 +23,4 @@ Open http://localhost:8080
 
 ## Stack
 
-Static HTML, CSS, and JS. No CMS, no secrets.
+Static HTML, CSS, and JS, plus `send-quote.php` for the quote form. No CMS, no secrets.
