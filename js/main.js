@@ -86,9 +86,13 @@
   const quoteForm = document.querySelector("#quote-request");
   if (quoteForm) {
     const status = quoteForm.querySelector("#quote-status");
+    const sendButton = quoteForm.querySelector("#send-enquiry");
+    const sendLabel = quoteForm.querySelector("#send-label");
+    const channelHelp = quoteForm.querySelector("#channel-help");
     const inbox = "info@familymovers.lk";
     const whatsappNumber = "94772503040";
     const requiredNames = ["name", "phone", "email", "move_date", "loading_address", "unloading_address", "goods"];
+    let sending = false;
 
     const showStatus = (state, fill) => {
       status.replaceChildren();
@@ -97,43 +101,67 @@
       status.focus({ preventScroll: true });
     };
 
+    const selectedChannel = () => quoteForm.elements.channel.value;
+    const applyChannelCopy = () => {
+      const email = selectedChannel() === "email";
+      sendLabel.textContent = email ? "Send enquiry by email" : "Continue to WhatsApp";
+      channelHelp.textContent = email
+        ? "Send directly from this page. No email app needed."
+        : "Opens WhatsApp with your enquiry ready. Review it, then tap Send.";
+    };
+    const updateChannel = () => {
+      applyChannelCopy();
+      if (!sending) {
+        status.replaceChildren();
+        delete status.dataset.state;
+      }
+    };
+    quoteForm.querySelectorAll('[name="channel"]').forEach((input) => {
+      input.addEventListener("change", updateChannel);
+    });
+
     quoteForm.querySelectorAll("input, textarea").forEach((input) => {
       input.addEventListener("input", () => input.setCustomValidity(""));
     });
 
     const fieldValue = (name) => String(quoteForm.elements[name].value || "").trim();
-    const enquiryBody = () => [
-      "Family Movers quote request",
-      "",
-      "Name: " + fieldValue("name"),
-      "Contact Number: " + fieldValue("phone"),
-      "Email: " + fieldValue("email"),
-      "Date of Moving: " + fieldValue("move_date"),
-      "",
-      "Loading Address & Floor(s):",
-      fieldValue("loading_address"),
-      "",
-      "Unloading Address & Floor(s):",
-      fieldValue("unloading_address"),
-      "",
-      "Description of Goods:",
-      fieldValue("goods"),
-      "",
-      "Special Remarks:",
-      fieldValue("remarks") || "(none)"
-    ].join("\n");
 
-    const addWhatsAppFallback = (el) => {
-      el.append(document.createTextNode(" You can still send the same details on "));
+    // Same shape as StoreIt's whatsappURL: greeting, one line per short field,
+    // longer answers on the following line, optional fields only when filled.
+    const enquiryLines = () => {
+      const lines = [
+        "Hello Family Movers, I would like to enquire about a move.",
+        "",
+        "Name: " + fieldValue("name"),
+        "Contact Number: " + fieldValue("phone"),
+        "Email: " + fieldValue("email"),
+        "Date of Moving: " + fieldValue("move_date"),
+        "",
+        "Loading Address & Floor(s):",
+        fieldValue("loading_address"),
+        "",
+        "Unloading Address & Floor(s):",
+        fieldValue("unloading_address"),
+        "",
+        "Description of Goods:",
+        fieldValue("goods")
+      ];
+      const remarks = fieldValue("remarks");
+      if (remarks) lines.push("", "Special Remarks:", remarks);
+      return lines;
+    };
+    const whatsappURL = () =>
+      "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(enquiryLines().join("\n"));
+
+    const addWhatsAppLink = (el, text) => {
       const link = document.createElement("a");
-      link.href = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(enquiryBody());
+      link.href = whatsappURL();
       link.target = "_blank";
       link.rel = "noopener noreferrer";
-      link.textContent = "WhatsApp";
-      el.append(link, document.createTextNode(", or call 0772 503040."));
+      link.textContent = text;
+      el.append(document.createTextNode(" "), link);
     };
 
-    let sending = false;
     quoteForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       if (sending) return;
@@ -158,11 +186,20 @@
         return;
       }
 
-      const button = quoteForm.querySelector('button[type="submit"]');
-      const buttonLabel = button.textContent;
+      if (selectedChannel() === "whatsapp") {
+        // Opens a draft only. The visitor still chooses whether to send it.
+        window.open(whatsappURL(), "_blank", "noopener,noreferrer");
+        showStatus("", (el) => {
+          el.append(document.createTextNode("Your WhatsApp draft is ready. Review it and tap Send in WhatsApp."));
+          addWhatsAppLink(el, "Open WhatsApp if it did not open.");
+        });
+        return;
+      }
+
       sending = true;
-      button.disabled = true;
-      button.textContent = "Sending…";
+      sendButton.disabled = true;
+      quoteForm.setAttribute("aria-busy", "true");
+      sendLabel.textContent = "Sending your enquiry…";
       showStatus("", (el) => {
         el.textContent = "Sending your enquiry…";
       });
@@ -211,14 +248,16 @@
           ? "Sending timed out."
           : (error && error.message) || "We could not send your enquiry.";
         showStatus("error", (el) => {
-          el.append(document.createTextNode(message));
-          addWhatsAppFallback(el);
+          el.append(document.createTextNode(message + " You can still send the same details on"));
+          addWhatsAppLink(el, "WhatsApp");
+          el.append(document.createTextNode(", or call 0772 503040."));
         });
       } finally {
         clearTimeout(timeout);
         sending = false;
-        button.disabled = false;
-        button.textContent = buttonLabel;
+        sendButton.disabled = false;
+        quoteForm.removeAttribute("aria-busy");
+        applyChannelCopy();
       }
     });
   }
