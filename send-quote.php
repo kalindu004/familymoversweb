@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-const RECIPIENT = 'info@familymovers.lk';
+const RECIPIENT = 'kalindu@ngxconsultants.com';
 const FROM_ADDRESS = 'info@familymovers.lk';
 const SUBJECT = 'Family Movers website quote request';
 
