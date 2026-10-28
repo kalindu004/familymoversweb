@@ -507,13 +507,14 @@
       </div>
       <!--
         Replaces the Google Form embed (published id 1FAIpQLSfn3cQdmFVL81T-boSjR3DgzBBDFfXpfIDtiwozW-6Av5Sd8Q).
-        Email sends JSON to same-origin send-quote.php, which mails info@familymovers.lk.
         WhatsApp opens wa.me/94772503040 with the filled fields. Do not use StoreIt's number.
+        Email sending is switched off (Oct 2026: send-quote.php mail was not reaching the Zoho
+        mailboxes). send-quote.php is kept on the server so email can be turned back on later.
         Do not point this form at StoreIt's send-enquiry.php.
       -->
-      <form id="quote-request" class="enquiry-form" method="post" action="send-quote.php">
+      <form id="quote-request" class="enquiry-form" method="post">
         <h3>Request a quotation</h3>
-        <p class="form-intro">Complete the form and send your enquiry directly to our team by WhatsApp or email.</p>
+        <p class="form-intro">Complete the form and send your enquiry directly to our team on WhatsApp.</p>
         <input type="hidden" name="form_name" value="family-movers-quote">
         <div class="form-row">
           <div class="field">
@@ -552,13 +553,6 @@
           </div>
           <textarea id="quote-remarks" name="remarks" rows="3" maxlength="2000"></textarea>
         </div>
-        <fieldset class="channel-picker">
-          <legend>How would you like to send your enquiry?</legend>
-          <div class="channel-options">
-            <label class="channel-option"><input type="radio" name="channel" value="whatsapp" checked><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a9 9 0 0 1-13.5 8L3 21l1.5-4.5A9 9 0 1 1 21 11.5Z"/><path d="M8 7c0 5 4 9 9 9l1-3-3-1-1 2a8 8 0 0 1-4-4l2-1-1-3z"/></svg>WhatsApp</span></label>
-            <label class="channel-option"><input type="radio" name="channel" value="email"><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 6 10 7L22 6"/></svg>Email</span></label>
-          </div>
-        </fieldset>
         <p id="channel-help" class="channel-help">Opens WhatsApp with your enquiry ready. Review it, then tap Send.</p>
         <button id="send-enquiry" class="btn send-button" type="submit"><span id="send-label">Continue to WhatsApp</span></button>
         <p id="quote-status" class="form-status" role="status" aria-live="polite" tabindex="-1"></p>
@@ -586,7 +580,7 @@
   </footer>
 
 
-  <script src="js/main.js?v=23"></script>
+  <script src="js/main.js?v=24"></script>
   <script src="js/whatsapp-widget.js?v=20"></script>
 </body>
 </html>
