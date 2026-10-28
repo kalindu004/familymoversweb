@@ -86,13 +86,8 @@
   const quoteForm = document.querySelector("#quote-request");
   if (quoteForm) {
     const status = quoteForm.querySelector("#quote-status");
-    const sendButton = quoteForm.querySelector("#send-enquiry");
-    const sendLabel = quoteForm.querySelector("#send-label");
-    const channelHelp = quoteForm.querySelector("#channel-help");
-    const inbox = "info@familymovers.lk";
     const whatsappNumber = "94772503040";
     const requiredNames = ["name", "phone", "email", "move_date", "loading_address", "unloading_address", "goods"];
-    let sending = false;
 
     const showStatus = (state, fill) => {
       status.replaceChildren();
@@ -100,25 +95,6 @@
       fill(status);
       status.focus({ preventScroll: true });
     };
-
-    const selectedChannel = () => quoteForm.elements.channel.value;
-    const applyChannelCopy = () => {
-      const email = selectedChannel() === "email";
-      sendLabel.textContent = email ? "Send enquiry by email" : "Continue to WhatsApp";
-      channelHelp.textContent = email
-        ? "Send directly from this page. No email app needed."
-        : "Opens WhatsApp with your enquiry ready. Review it, then tap Send.";
-    };
-    const updateChannel = () => {
-      applyChannelCopy();
-      if (!sending) {
-        status.replaceChildren();
-        delete status.dataset.state;
-      }
-    };
-    quoteForm.querySelectorAll('[name="channel"]').forEach((input) => {
-      input.addEventListener("change", updateChannel);
-    });
 
     quoteForm.querySelectorAll("input, textarea").forEach((input) => {
       input.addEventListener("input", () => input.setCustomValidity(""));
@@ -162,9 +138,8 @@
       el.append(document.createTextNode(" "), link);
     };
 
-    quoteForm.addEventListener("submit", async (event) => {
+    quoteForm.addEventListener("submit", (event) => {
       event.preventDefault();
-      if (sending) return;
 
       requiredNames.forEach((name) => {
         const input = quoteForm.elements[name];
@@ -186,79 +161,13 @@
         return;
       }
 
-      if (selectedChannel() === "whatsapp") {
-        // Opens a draft only. The visitor still chooses whether to send it.
-        window.open(whatsappURL(), "_blank", "noopener,noreferrer");
-        showStatus("", (el) => {
-          el.append(document.createTextNode("Your WhatsApp draft is ready. Review it and tap Send in WhatsApp."));
-          addWhatsAppLink(el, "Open WhatsApp if it did not open.");
-        });
-        return;
-      }
-
-      sending = true;
-      sendButton.disabled = true;
-      quoteForm.setAttribute("aria-busy", "true");
-      sendLabel.textContent = "Sending your enquiry…";
+      // Opens a draft only. The visitor still chooses whether to send it.
+      // Email sending through send-quote.php is switched off; see index.html.
+      window.open(whatsappURL(), "_blank", "noopener,noreferrer");
       showStatus("", (el) => {
-        el.textContent = "Sending your enquiry…";
+        el.append(document.createTextNode("Your WhatsApp draft is ready. Review it and tap Send in WhatsApp."));
+        addWhatsAppLink(el, "Open WhatsApp if it did not open.");
       });
-
-      const payload = {
-        name: fieldValue("name"),
-        phone: fieldValue("phone"),
-        email: fieldValue("email"),
-        move_date: fieldValue("move_date"),
-        loading_address: fieldValue("loading_address"),
-        unloading_address: fieldValue("unloading_address"),
-        goods: fieldValue("goods"),
-        remarks: fieldValue("remarks")
-      };
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 15000);
-      try {
-        const response = await fetch("send-quote.php", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json"
-          },
-          body: JSON.stringify(payload),
-          signal: controller.signal,
-          credentials: "same-origin"
-        });
-        let result = null;
-        try {
-          result = await response.json();
-        } catch (parseError) {
-          result = null;
-        }
-        if (!response.ok || !result || result.ok !== true) {
-          const message = result && typeof result.error === "string" && result.error
-            ? result.error
-            : "We could not send your enquiry.";
-          throw new Error(message);
-        }
-        quoteForm.reset();
-        showStatus("success", (el) => {
-          el.textContent = "Thank you. Your quote request has been sent to " + inbox + ". We will get back to you.";
-        });
-      } catch (error) {
-        const message = error && error.name === "AbortError"
-          ? "Sending timed out."
-          : (error && error.message) || "We could not send your enquiry.";
-        showStatus("error", (el) => {
-          el.append(document.createTextNode(message + " You can still send the same details on"));
-          addWhatsAppLink(el, "WhatsApp");
-          el.append(document.createTextNode(", or call 0772 503040."));
-        });
-      } finally {
-        clearTimeout(timeout);
-        sending = false;
-        sendButton.disabled = false;
-        quoteForm.removeAttribute("aria-busy");
-        applyChannelCopy();
-      }
     });
   }
 })();

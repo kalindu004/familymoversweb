@@ -9,7 +9,7 @@ Hostinger Git-syncs this repo’s `main` branch to production. No build step.
 Homepage (`index.html`) rebuilt as a rich single page with hash sections ready for a later multi-page split (`#home`, `#about`, `#services`, `#portfolio`, `#testimonials`, `#contact`, `#quote`, `#team`, `#why`, plus journey IDs).
 
 - Brand colours: navy `#013370` / `#001733` + gold `#fdba13`
-- Quote form: native enquiry form at `#quote`. `send-quote.php` emails `info@familymovers.lk` with PHP `mail()`. WhatsApp is only a fallback if sending fails.
+- Quote form: native enquiry form at `#quote`. It sends only through WhatsApp (opens wa.me/94772503040 with the answers). Email sending is switched off because `send-quote.php` mail was not reaching the Zoho mailboxes; `send-quote.php` (PHP `mail()` to `transport@familymovers.lk`) is kept so it can be turned back on.
 - Analytics: GA4 `G-W453LPRSKV`
 - WhatsApp widget + sticky mobile Call / WhatsApp / Quote bar
 
