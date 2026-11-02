@@ -1,0 +1,8 @@
+# Family Movers: every bot may read the whole site. This includes search engines
+# (Googlebot, Bingbot) and AI bots for search and training (for example GPTBot,
+# OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot, Google-Extended,
+# Applebot-Extended). No bot is blocked.
+User-agent: *
+Allow: /
+
+Sitemap: https://www.familymovers.lk/sitemap.xml

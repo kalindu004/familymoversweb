@@ -19,3 +19,15 @@
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
 </IfModule>
+
+# Main address: send familymovers.lk to https://www.familymovers.lk (301, permanent).
+# The http-to-https redirect is handled by the hosting and is not changed here.
+# send-quote.php and /.well-known/ (SSL certificate checks) are left out so they
+# are never redirected.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^familymovers\.lk$ [NC]
+  RewriteCond %{REQUEST_URI} !^/send-quote\.php$ [NC]
+  RewriteCond %{REQUEST_URI} !^/\.well-known/ [NC]
+  RewriteRule ^(.*)$ https://www.familymovers.lk/$1 [R=301,L]
+</IfModule>
