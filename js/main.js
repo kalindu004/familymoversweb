@@ -34,9 +34,21 @@
     );
   }
 
+  // Slides 2 and 3 keep their background in data-bg so they do not slow the
+  // first view. Apply it after the page has loaded, or when a slide is shown.
+  const loadSlide = (s) => {
+    if (s && s.dataset.bg) {
+      s.setAttribute("style", s.dataset.bg);
+      s.removeAttribute("data-bg");
+    }
+  };
+  if (document.readyState === "complete") slides.forEach(loadSlide);
+  else window.addEventListener("load", () => slides.forEach(loadSlide));
+
   function show(n) {
     if (!slides.length) return;
     i = (n + slides.length) % slides.length;
+    loadSlide(slides[i]);
     slides.forEach((s, idx) => s.classList.toggle("is-on", idx === i));
     dots.forEach((d, idx) => {
       const on = idx === i;

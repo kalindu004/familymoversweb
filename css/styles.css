@@ -173,6 +173,8 @@ section { padding: 4.5rem 0; }
   min-width: 0;
   padding: 1.5rem 1.25rem .9rem;
 }
+/* The <picture> wrapper must not change the card layout. */
+.journey-card picture { display: contents; }
 .journey-photo {
   display: block;
   width: 100%;
