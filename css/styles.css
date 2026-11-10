@@ -140,6 +140,15 @@ h1, h2, h3 { font-family: "Playfair Display", Georgia, serif; line-height: 1.15;
 section { padding: 4.5rem 0; }
 .section-head { text-align: center; margin-bottom: 2.4rem; }
 .section-head h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); margin: 0 0 .5rem; color: var(--navy); }
+/* Journeys prompt sits above the path cards, so it reads larger than other section titles. */
+#journeys-title {
+  font-size: clamp(2.2rem, 4.4vw, 3.25rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  color: var(--navy-dark);
+  margin-bottom: .65rem;
+}
 .section-head p { margin: 0 auto; max-width: 62ch; color: var(--muted); }
 .gold-rule {
   width: 64px; height: 3px; background: var(--gold); margin: .8rem auto 1rem; border: 0;
